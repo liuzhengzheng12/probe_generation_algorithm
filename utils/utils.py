@@ -30,3 +30,10 @@ def transform_to_primary_metadata(metadata_name):
 def get_freq_class(query_freq):
     exp = math.ceil(math.log(query_freq, 2.0))
     return 2 ** exp
+
+
+def merge_path(path, pos_path):
+    assert(path[-1] == pos_path[0])
+    path.pop()
+    path.extend(pos_path)
+    return path
