@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
 
 import networkx as nx
-from topology.topology_base import TopologyBase
 
 
-class FatTreeTopology(TopologyBase):
+class FatTreeTopology(object):
 
     def __init__(self, k=40):
-        super(FatTreeTopology, self).__init__()
+        self.topology = nx.Graph()
         self.k = k
         self.pods = k               # pod数量
         self.cores = (k/2)**2       # 核心层交换机总数
@@ -39,6 +38,10 @@ class FatTreeTopology(TopologyBase):
         sort_adjs = self.topology.adj[v].keys()
         sort_adjs.sort()
         return sort_adjs
+
+    def get_outport(self, src_node, dst_node):
+        adjs = self.get_sort_adjs(src_node)
+        return adjs.index(dst_node)
 
     def get_topology(self):
         return self.topology

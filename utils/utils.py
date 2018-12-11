@@ -1,17 +1,23 @@
 # -*- coding: utf-8 -*-
-derived_map_primary = {
-    # Path-level Metadata
-    'PathLength': [],
-    'PathTrace': ['Ingress_port_id', 'Egress_port_id'],
-    'PathRTT': ['Ingress_timestamp', 'Egress_timestamp'],
-    'PathUtilization': ['Ingress_port_RX_utilization', 'Egress_port_TX_utilization'],
-    'PathThroughput': ['Ingress_port_RX_pkt_count', 'Egress_port_TX_pkt_count'],
-    # Node-level Metadata
-    'SwitchWorkload': ['Ingress_port_RX_pkt_count', 'Egress_port_RX_pkt_count'],
-    'SwitchForwardPacketCount': ['Egress_port_TX_pkt_count'],
-    'SwitchDropPacketCount': ['Ingress_port_RX_drop_count', 'Queue_drop_count', 'Egress_port_TX_drop_count'],
-    'AlivePortCount': ['Ingress_port_id', 'Egress_port_id']
-}
+import math
+from const import bitmap_bias, derived_map_primary
+
+
+def transform_fwd_path_to_fwd_label_list(topo_class, fwd_path):
+    fwd_label_list = []
+    path_len = len(fwd_path)
+    src_node = fwd_path[0]
+    for i in xrange(1, path_len):
+        fwd_label_list.append(topo_class.get_outport(src_node, fwd_path[i]))
+        src_node = fwd_path[i]
+    return fwd_label_list
+
+
+def create_bitmap(primary_metadata_set):
+    bitmap = 0
+    for primary_metadata_name in primary_metadata_set:
+        bitmap += 1 << bitmap_bias[primary_metadata_name]
+    return bitmap
 
 
 def transform_to_primary_metadata(metadata_name):
@@ -19,3 +25,8 @@ def transform_to_primary_metadata(metadata_name):
         return derived_map_primary[metadata_name]
     else:
         return [metadata_name]
+
+
+def get_freq_class(query_freq):
+    exp = math.ceil(math.log(query_freq, 2.0))
+    return 2 ** exp

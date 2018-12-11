@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import networkx as nx
 from copy import deepcopy
 from utils.utils import transform_to_primary_metadata
@@ -8,12 +9,16 @@ class Query(object):
     """
     Query Base Class
     """
-    def __init__(self, where, period, return_metadata):
+    def __init__(self, where, period, return_metadata, query_type):
         self.where = where
         self.period = period
         self.return_metadata = return_metadata
+        self.query_type = query_type
         self.all_metadatas = deepcopy(where)
         self.all_metadatas.update(return_metadata)
+
+    def decompose_derived_metadata(self):
+        return set(self.all_metadatas)
 
     def decompose(self):
         primary_metadata_list = []
@@ -21,10 +26,13 @@ class Query(object):
             primary_metadata_list.extend(transform_to_primary_metadata(metadata))
         return set(primary_metadata_list)
 
+    def get_freq(self):
+        return 1.0/self.period
+
 
 class PathQuery(Query):
-    def __init__(self, src_node, src_port, dst_node, dst_port, where, period, return_metadata):
-        super(PathQuery, self).__init__(where, period, return_metadata)
+    def __init__(self, src_node, src_port, dst_node, dst_port, where, period, return_metadata, query_type):
+        super(PathQuery, self).__init__(where, period, return_metadata, query_type)
         self.src_node = src_node
         self.src_port = src_port
         self.dst_node = dst_node
@@ -50,8 +58,8 @@ class PathQuery(Query):
 
 
 class NodeQuery(Query):
-    def __init__(self, node, port, where, period, return_metadata):
-        super(NodeQuery, self).__init__(where, period, return_metadata)
+    def __init__(self, node, port, where, period, return_metadata, query_type):
+        super(NodeQuery, self).__init__(where, period, return_metadata, query_type)
         self.node = node
         self.port = port
         self.ingress = False
