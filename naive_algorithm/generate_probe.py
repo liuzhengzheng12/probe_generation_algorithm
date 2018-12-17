@@ -6,7 +6,7 @@ from utils.assemble_probe import assemble_probe
 from utils.utils import transform_fwd_path_to_fwd_label_list, create_bitmap
 
 
-def generate_probe_set(query_list, topo_class, k_fwd, k_tele):
+def naive_generate_probe_set(query_list, topo_class, k_fwd, k_tele):
     query_probe_list = []
     topology = topo_class.get_topology()
     for query in query_list:
@@ -39,7 +39,7 @@ def generate_probe_set(query_list, topo_class, k_fwd, k_tele):
                         full_fwd_path.extend(pre_fwd_path)
                         full_fwd_path.extend(mid_fwd_path)
                         full_fwd_path.extend(before_pos_fwd_path)
-                        print full_fwd_path
+                        # print full_fwd_path
                         fwd_label_list = transform_fwd_path_to_fwd_label_list(topo_class, full_fwd_path)
                         tmy_label_list = [(node, bitmap) for node in mid_fwd_path]
                         probe_pkt = assemble_probe(fwd_label_list, tmy_label_list)
@@ -54,7 +54,7 @@ def generate_probe_set(query_list, topo_class, k_fwd, k_tele):
                 full_fwd_path.extend(pre_fwd_path)
                 full_fwd_path.extend(mid_fwd_path)
                 full_fwd_path.extend(before_pos_fwd_path)
-                print full_fwd_path
+                # print full_fwd_path
                 fwd_label_list = transform_fwd_path_to_fwd_label_list(topo_class, full_fwd_path)
                 tmy_label_list = [(node, bitmap) for node in mid_fwd_path]
                 probe_pkt = assemble_probe(fwd_label_list, tmy_label_list)

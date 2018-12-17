@@ -74,10 +74,13 @@ def get_nearest_node(from_node, topology, node_list):
 
 
 def merge_path(path, pos_path):
-    assert(path[-1] == pos_path[0])
-    path.pop()
-    path.extend(pos_path)
-    return path
+    # print path, pos_path
+    if path[-1] == pos_path[0]:
+        path.pop()
+        path.extend(pos_path)
+        return path
+    else:
+        return path
 
 
 def generate_probe(all_query_cluster_primary_metadata_list, topo_class, k_fwd, k_tele):
@@ -89,14 +92,13 @@ def generate_probe(all_query_cluster_primary_metadata_list, topo_class, k_fwd, k
         freq_list.sort(reverse=True)
         if not freq_list:
             continue
-        print category
+        # print category
         freq_len = len(freq_list)
         for i in xrange(freq_len):
             high_freq = freq_list[i]
             high_freq_node_list = primary_metadata_set_list[high_freq].keys()
             if len(high_freq_node_list) == 0:
                 continue
-
             probe_set = set()
             from_node = 0
             whole_fwd_path = [0]
@@ -161,15 +163,16 @@ def generate_probe(all_query_cluster_primary_metadata_list, topo_class, k_fwd, k
                                       tmy_path]
                     probe_pkt = assemble_probe(fwd_label_list, tmy_label_list)
                     probe_set.add(probe_pkt)
-
+            query_probe_list[category][high_freq] = probe_set
     return query_probe_list
 
 
-def generate_probe_set(query_list, topo_class, k_fwd, k_tele):
+def optimize_generate_probe_set(query_list, topo_class, k_fwd, k_tele):
     all_query_cluster_list = classify_queries(query_list)
+    # print all_query_cluster_list
     all_query_cluster_derived_metadata_list = generate_derived_metadata_set(all_query_cluster_list, topo_class)
     all_query_cluster_primary_metadata_list = generate_primary_metadata_set(all_query_cluster_derived_metadata_list)
-    print all_query_cluster_primary_metadata_list
+    # print all_query_cluster_primary_metadata_list
     probe_pkt_list = generate_probe(all_query_cluster_primary_metadata_list, topo_class, k_fwd, k_tele)
 
     return probe_pkt_list

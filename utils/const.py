@@ -35,7 +35,35 @@ derived_map_primary = {
     'path_throughput': ['ingress_pkt_cnt', 'egress_pkt_cnt'],
     # Node-level Metadata
     'switch_workload': ['ingress_pkt_cnt', 'egress_pkt_cnt'],
-    'switch_forward_packet_count': ['egress_pkt_cnt'],
-    'switch_drop_packet_count': ['ingress_drop_count', 'egress_drop_count'],
-    'alive_port_count': ['ingress_port', 'egress_port']
+    'switch_forward_packet_cnt': ['egress_pkt_cnt'],
+    'switch_drop_packet_cnt': ['ingress_drop_cnt', 'egress_drop_cnt'],
+    'alive_port_cnt': ['ingress_port', 'egress_port']
 }
+
+metadata_list = [
+    'state',
+    'ingress_port',
+    'ingress_tstamp',
+    'ingress_pkt_cnt',
+    'ingress_byte_cnt',
+    'ingress_drop_cnt',
+    'egress_port',
+    'egress_tstamp',
+    'egress_pkt_cnt',
+    'egress_byte_cnt',
+    'egress_drop_cnt',
+    'enq_tstamp',
+    'enq_qdepth',
+    'hop_latency',
+    'q_occupancy',
+    'pkt_len',
+    'inst_type',
+    'path_length',
+    'path_trace',
+    'path_rtt',
+    'path_throughput',
+    'switch_workload',
+    'switch_forward_packet_cnt',
+    'switch_drop_packet_cnt',
+    'alive_port_cnt'
+]
