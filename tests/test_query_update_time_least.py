@@ -17,7 +17,7 @@ if __name__ == '__main__':
 
     node_query_list = []
     path_query_list = []
-    for query_cnt in xrange(10, 1010, 10):
+    for query_cnt in xrange(10, 20, 10):
         node_query_cnt = query_cnt / 2
         for index in xrange(node_query_cnt-5, node_query_cnt):
             node_query_where = {}
