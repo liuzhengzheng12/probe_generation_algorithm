@@ -9,7 +9,7 @@ from random import randint
 if __name__ == '__main__':
     fat_tree = FatTreeTopology()
     k_fwd = 100
-    k_tele = 5
+    k_tele = 10
     metadata_len = len(metadata_list)
     k = 5
     category = ['performance', 'failure']

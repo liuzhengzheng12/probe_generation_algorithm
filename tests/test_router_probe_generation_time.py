@@ -8,7 +8,7 @@ from time import time
 
 if __name__ == '__main__':
     k_fwd = 100
-    k_tele = 5
+    k_tele = 10
     metadata_len = len(metadata_list)
     k = 5
     category = ['performance', 'failure']
