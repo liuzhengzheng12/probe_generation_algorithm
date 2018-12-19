@@ -41,38 +41,39 @@ if __name__ == '__main__':
 
     query_list = node_query_list + path_query_list
 
-    node_query_update_list = []
-    path_query_update_list = []
     for query_update_cnt in xrange(10, 1000, 10):
+        node_query_update_list = []
         node_query_update_cnt = query_update_cnt / 2
-        for index in xrange(node_query_update_cnt-5, node_query_update_cnt):
+        for index in xrange(node_query_update_cnt):
             node_query_where = {}
             node_query_return = {}
             for _ in xrange(index):
                 node_query_where[metadata_list[randint(0, index) % metadata_len]] = {}
                 node_query_return[metadata_list[randint(0, index) % metadata_len]] = {}
-            node_query_update_list.append(NodeQuery(index, randint(0, k), node_query_where, randint(1, node_query_update_cnt),
-                                             node_query_return, category[randint(0, 1)]))
+            node_query_update_list.append(NodeQuery(index, randint(0, k), node_query_where,
+                                                    randint(1, node_query_update_cnt),
+                                                    node_query_return, category[randint(0, 1)]))
 
+        path_query_update_list = []
         path_query_update_cnt = query_update_cnt / 2
-        for index in xrange(path_query_update_cnt-5, path_query_update_cnt):
+        for index in xrange(path_query_update_cnt):
             path_query_where = {}
             path_query_return = {}
             for _ in xrange(index):
                 path_query_where[metadata_list[randint(0, index) % metadata_len]] = {}
                 path_query_return[metadata_list[randint(0, index) % metadata_len]] = {}
             path_query_update_list.append(PathQuery(index, randint(0, k), index + 1, randint(0, k),
-                                             path_query_where, randint(1, path_query_update_cnt), path_query_return,
-                                             category[randint(0, 1)]))
+                                                    path_query_where, randint(1, path_query_update_cnt),
+                                                    path_query_return, category[randint(0, 1)]))
         add_query_list = query_list + node_query_update_list + path_query_update_list
 
         time_start = time()
-        all_query_cluster_list = optimize_generate_probe_set(add_query_list, fat_tree, k_fwd, k_tele)
+        optimize_generate_probe_set(add_query_list, fat_tree, k_fwd, k_tele)
         time_end = time()
         query_add_time = int((time_end - time_start) * 1000000)
 
         time_start = time()
-        all_query_cluster_list = optimize_generate_probe_set(query_list[:-query_update_cnt], fat_tree, k_fwd, k_tele)
+        optimize_generate_probe_set(query_list[:-query_update_cnt], fat_tree, k_fwd, k_tele)
         time_end = time()
         query_remove_time = int((time_end - time_start) * 1000000)
 

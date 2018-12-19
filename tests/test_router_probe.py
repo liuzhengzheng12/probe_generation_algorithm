@@ -6,17 +6,9 @@ from utils.const import metadata_list
 from random import randint
 from copy import deepcopy
 
-if __name__ == '__main__':
-    k_fwd = 20
-    k_tele = 10
-    metadata_len = len(metadata_list)
-    k = 5
-    port_range = 499
-    category = ['performance', 'failure']
-    f = open('testsdata/fig3_router_probe.txt', 'w')
 
+def get_query_list_dict(k, port_range):
     query_list_dict = {100: [], 500: [], 1000: []}
-
     node_query_list = []
     path_query_list = []
     for index in xrange(50):
@@ -25,7 +17,7 @@ if __name__ == '__main__':
         for _ in xrange(index):
             node_query_where[metadata_list[randint(0, index) % metadata_len]] = {}
             node_query_return[metadata_list[randint(0, index) % metadata_len]] = {}
-        node_query_list.append(NodeQuery(randint(0, port_range), randint(0, k), node_query_where, randint(1, index+1),
+        node_query_list.append(NodeQuery(randint(0, port_range), randint(0, k), node_query_where, randint(1, index + 1),
                                          node_query_return, category[randint(0, 1)]))
         path_query_where = {}
         path_query_return = {}
@@ -33,7 +25,7 @@ if __name__ == '__main__':
             path_query_where[metadata_list[randint(0, index) % metadata_len]] = {}
             path_query_return[metadata_list[randint(0, index) % metadata_len]] = {}
         path_query_list.append(PathQuery(randint(0, port_range), randint(0, k), randint(0, port_range), randint(0, k),
-                                         path_query_where, randint(1, index+1), path_query_return,
+                                         path_query_where, randint(1, index + 1), path_query_return,
                                          category[randint(0, 1)]))
     query_list_dict[100] = node_query_list + path_query_list
 
@@ -44,16 +36,18 @@ if __name__ == '__main__':
         for _ in xrange(index):
             node_query_where[metadata_list[randint(0, index) % metadata_len]] = {}
             node_query_return[metadata_list[randint(0, index) % metadata_len]] = {}
-        query_list_dict[500].append(NodeQuery(randint(0, port_range), randint(0, k), node_query_where, randint(1, index),
-                                         node_query_return, category[randint(0, 1)]))
+        query_list_dict[500].append(
+            NodeQuery(randint(0, port_range), randint(0, k), node_query_where, randint(1, index),
+                      node_query_return, category[randint(0, 1)]))
         path_query_where = {}
         path_query_return = {}
         for _ in xrange(index):
             path_query_where[metadata_list[randint(0, index) % metadata_len]] = {}
             path_query_return[metadata_list[randint(0, index) % metadata_len]] = {}
-        query_list_dict[500].append(PathQuery(randint(0, port_range), randint(0, k), randint(0, port_range), randint(0, k),
-                                         path_query_where, randint(1, index), path_query_return,
-                                         category[randint(0, 1)]))
+        query_list_dict[500].append(
+            PathQuery(randint(0, port_range), randint(0, k), randint(0, port_range), randint(0, k),
+                      path_query_where, randint(1, index), path_query_return,
+                      category[randint(0, 1)]))
 
     query_list_dict[1000] = deepcopy(query_list_dict[500])
     for index in xrange(300, 550):
@@ -62,21 +56,33 @@ if __name__ == '__main__':
         for _ in xrange(index):
             node_query_where[metadata_list[randint(0, index) % metadata_len]] = {}
             node_query_return[metadata_list[randint(0, index) % metadata_len]] = {}
-        query_list_dict[1000].append(NodeQuery(randint(0, port_range), randint(0, k), node_query_where, randint(1, index),
-                                               node_query_return, category[randint(0, 1)]))
+        query_list_dict[1000].append(
+            NodeQuery(randint(0, port_range), randint(0, k), node_query_where, randint(1, index),
+                      node_query_return, category[randint(0, 1)]))
         path_query_where = {}
         path_query_return = {}
         for _ in xrange(index):
             path_query_where[metadata_list[randint(0, index) % metadata_len]] = {}
             path_query_return[metadata_list[randint(0, index) % metadata_len]] = {}
-        query_list_dict[1000].append(PathQuery(randint(0, port_range), randint(0, k), randint(0, port_range), randint(0, k),
-                                               path_query_where, randint(1, index), path_query_return,
-                                               category[randint(0, 1)]))
+        query_list_dict[1000].append(
+            PathQuery(randint(0, port_range), randint(0, k), randint(0, port_range), randint(0, k),
+                      path_query_where, randint(1, index), path_query_return,
+                      category[randint(0, 1)]))
 
-    # print len(query_list_dict[100]), len(query_list_dict[500]), len(query_list_dict[1000])
-    for k in xrange(20, 100, 2):
+    return query_list_dict
+
+
+if __name__ == '__main__':
+    k_fwd = 20
+    k_tele = 10
+    metadata_len = len(metadata_list)
+    category = ['performance', 'failure']
+    f = open('testsdata/fig3_router_probe.txt', 'w')
+
+    for k in xrange(4, 100, 2):
         fat_tree = FatTreeTopology(k=k)
         router_cnt = 5 * k * k / 4
+        query_list_dict = get_query_list_dict(k/2-1, router_cnt-1)
 
         optimize_probe_pkt_list = optimize_generate_probe_set(query_list_dict[100], fat_tree, k_fwd, k_tele)
         optimize_probe_cnt_100 = 0
