@@ -9,5 +9,5 @@ setup(
         author="Zhengzheng Liu",
         license="MIT",
         packages=find_packages(),
-        install_requires=['networkx', 'scapy']
+        install_requires=['networkx', 'scapy', 'psutil']
     )

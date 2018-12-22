@@ -43,7 +43,7 @@ if __name__ == '__main__':
 
     node_query_update_list = []
     path_query_update_list = []
-    for query_update_cnt in xrange(10, 1000, 10):
+    for query_update_cnt in xrange(10, 1010, 10):
         query_add_time = 0.0
         query_remove_time = 0.0
         node_query_update_cnt = query_update_cnt / 2
@@ -68,7 +68,6 @@ if __name__ == '__main__':
                                                     path_query_where, randint(1, path_query_update_cnt),
                                                     path_query_return, category[randint(0, 1)]))
         add_query_list = query_list + node_query_update_list + path_query_update_list
-        print len(add_query_list)
 
         for _ in xrange(10):
             time_start = time()
