@@ -17,7 +17,7 @@ if __name__ == '__main__':
 
     node_query_update_list = []
     path_query_update_list = []
-    for query_update_cnt in xrange(10, 1000, 10):
+    for query_update_cnt in xrange(10, 1010, 10):
         query_add_time = 0.0
         node_query_update_cnt = query_update_cnt / 2
         for index in xrange(node_query_update_cnt-5, node_query_update_cnt):
