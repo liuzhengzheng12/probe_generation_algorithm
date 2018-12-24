@@ -40,7 +40,8 @@ if __name__ == '__main__':
     for k in xrange(4, 102, 2):
         fat_tree = FatTreeTopology(k=k)
         router_cnt = 5 * k * k / 4
-        query_list = get_query_list(k / 2 - 1, router_cnt - 1)
+        if k <= 20:
+            query_list = get_query_list(k / 2 - 1, router_cnt - 1)
 
         time_start = time()
         all_query_cluster_list = classify_queries(query_list)
