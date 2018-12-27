@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from scapy.all import *
 from scapy.layers.l2 import Ether
 from scapy.layers.inet import IP, TCP
 from scapy.fields import BitField
