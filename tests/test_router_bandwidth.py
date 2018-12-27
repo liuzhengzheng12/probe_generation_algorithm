@@ -63,7 +63,8 @@ if __name__ == '__main__':
             probe_set_dict = optimize_probe_pkt_list[probe_type]
             for freq, probe_set in probe_set_dict.iteritems():
                 for probe in probe_set:
-                    bandwidth_100 += len(probe)
+                    if probe:
+                        bandwidth_100 += len(probe)
         bandwidth_100 *= 100
         bandwidth_100 /= 1000000.0
 
@@ -73,7 +74,8 @@ if __name__ == '__main__':
             probe_set_dict = optimize_probe_pkt_list[probe_type]
             for freq, probe_set in probe_set_dict.iteritems():
                 for probe in probe_set:
-                    bandwidth_500 += len(probe)
+                    if probe:
+                        bandwidth_500 += len(probe)
         bandwidth_500 *= 500
         bandwidth_500 /= 1000000.0
 
@@ -83,7 +85,8 @@ if __name__ == '__main__':
             probe_set_dict = optimize_probe_pkt_list[probe_type]
             for freq, probe_set in probe_set_dict.iteritems():
                 for probe in probe_set:
-                    bandwidth_1000 += len(probe)
+                    if probe:
+                        bandwidth_1000 += len(probe)
         bandwidth_1000 *= 1000
         bandwidth_1000 /= 1000000.0
 
